@@ -1,0 +1,404 @@
+import React, { useState, useEffect } from 'react';
+import { Sparkles, Trophy, Star, Zap, Code, Play, RotateCcw, Share2, BookOpen } from 'lucide-react';
+
+const CodeQuest = () => {
+  const [activeTab, setActiveTab] = useState('learn');
+  const [currentLesson, setCurrentLesson] = useState(0);
+  const [points, setPoints] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [badges, setBadges] = useState([]);
+  const [codeMode, setCodeMode] = useState('blocks');
+  const [output, setOutput] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [draggedBlock, setDraggedBlock] = useState(null);
+  const [codeBlocks, setCodeBlocks] = useState([]);
+  const [textCode, setTextCode] = useState('');
+
+  const lessons = [
+    {
+      id: 1,
+      title: 'Hello, World!',
+      description: 'Learn to display your first message!',
+      difficulty: 'Beginner',
+      challenge: 'Make the robot say "Hello, World!"',
+      solution: ['say', 'Hello, World!'],
+      textSolution: 'say("Hello, World!")'
+    },
+    {
+      id: 2,
+      title: 'Colors & Fun',
+      description: 'Add colors to your creations!',
+      difficulty: 'Beginner',
+      challenge: 'Change the background to blue',
+      solution: ['color', 'blue'],
+      textSolution: 'color("blue")'
+    },
+    {
+      id: 3,
+      title: 'Loops!',
+      description: 'Repeat actions multiple times',
+      difficulty: 'Intermediate',
+      challenge: 'Say "Yay!" 3 times',
+      solution: ['repeat', '3', 'say', 'Yay!'],
+      textSolution: 'repeat(3) {\n  say("Yay!")\n}'
+    }
+  ];
+
+  const availableBlocks = [
+    { type: 'say', label: 'Say', color: 'bg-purple-400', icon: '💬' },
+    { type: 'color', label: 'Color', color: 'bg-blue-400', icon: '🎨' },
+    { type: 'repeat', label: 'Repeat', color: 'bg-green-400', icon: '🔁' },
+    { type: 'move', label: 'Move', color: 'bg-yellow-400', icon: '➡️' },
+    { type: 'wait', label: 'Wait', color: 'bg-pink-400', icon: '⏱️' }
+  ];
+
+  const allBadges = [
+    { id: 'first-code', name: 'First Steps', icon: '🎯', earned: false },
+    { id: 'lesson-master', name: 'Lesson Master', icon: '📚', earned: false },
+    { id: 'speed-coder', name: 'Speed Coder', icon: '⚡', earned: false },
+    { id: 'creative', name: 'Creative Genius', icon: '🎨', earned: false }
+  ];
+
+  const runCode = () => {
+    let result = '';
+    
+    if (codeMode === 'blocks') {
+      codeBlocks.forEach((block, idx) => {
+        if (block.type === 'say') {
+          result += `🤖: ${block.value || 'Hello!'}\n`;
+        } else if (block.type === 'color') {
+          result += `🎨 Background changed to ${block.value || 'blue'}!\n`;
+        } else if (block.type === 'repeat') {
+          const times = parseInt(block.value) || 2;
+          const nextBlock = codeBlocks[idx + 1];
+          if (nextBlock && nextBlock.type === 'say') {
+            for (let i = 0; i < times; i++) {
+              result += `🤖: ${nextBlock.value || 'Hello!'}\n`;
+            }
+          }
+        }
+      });
+    } else {
+      // Simple text code parser
+      const lines = textCode.split('\n');
+      lines.forEach(line => {
+        if (line.includes('say(')) {
+          const match = line.match(/say\("(.+?)"\)/);
+          if (match) result += `🤖: ${match[1]}\n`;
+        } else if (line.includes('color(')) {
+          const match = line.match(/color\("(.+?)"\)/);
+          if (match) result += `🎨 Background changed to ${match[1]}!\n`;
+        }
+      });
+    }
+
+    setOutput(result || '✨ Your code ran! Try adding some blocks.');
+    
+    // Check if correct
+    const currentLessonData = lessons[currentLesson];
+    const isCorrect = checkSolution(currentLessonData);
+    
+    if (isCorrect && !showSuccess) {
+      setShowSuccess(true);
+      setPoints(prev => prev + 50);
+      
+      if (points + 50 >= level * 100) {
+        setLevel(prev => prev + 1);
+      }
+      
+      // Award first code badge
+      if (!badges.includes('first-code')) {
+        setBadges(prev => [...prev, 'first-code']);
+      }
+      
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  };
+
+  const checkSolution = (lesson) => {
+    if (codeMode === 'blocks') {
+      return codeBlocks.some(b => b.type === 'say' && b.value?.includes('Hello'));
+    } else {
+      return textCode.includes('say(') && textCode.includes('Hello');
+    }
+  };
+
+  const resetCode = () => {
+    setCodeBlocks([]);
+    setTextCode('');
+    setOutput('');
+  };
+
+  const addCodeBlock = (blockType) => {
+    setCodeBlocks([...codeBlocks, { type: blockType, value: '', id: Date.now() }]);
+  };
+
+  const updateBlockValue = (id, value) => {
+    setCodeBlocks(codeBlocks.map(b => b.id === id ? { ...b, value } : b));
+  };
+
+  const removeBlock = (id) => {
+    setCodeBlocks(codeBlocks.filter(b => b.id !== id));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
+      {/* Header */}
+      <div className="bg-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  CodeQuest
+                </h1>
+                <p className="text-sm text-gray-600">Learn to Code & Have Fun!</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <div className="bg-yellow-100 px-4 py-2 rounded-full flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-500" />
+                <span className="font-bold text-yellow-700">{points} pts</span>
+              </div>
+              <div className="bg-purple-100 px-4 py-2 rounded-full flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-purple-500" />
+                <span className="font-bold text-purple-700">Level {level}</span>
+              </div>
+              <div className="bg-pink-100 px-4 py-2 rounded-full flex items-center gap-2">
+                <Zap className="w-5 h-5 text-pink-500" />
+                <span className="font-bold text-pink-700">{badges.length} Badges</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="flex gap-2 bg-white rounded-xl p-2 shadow-md">
+          {['learn', 'code', 'badges', 'share'].map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex-1 py-3 px-4 rounded-lg font-bold transition-all ${
+                activeTab === tab
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              {tab === 'learn' && <BookOpen className="w-5 h-5 inline mr-2" />}
+              {tab === 'code' && <Code className="w-5 h-5 inline mr-2" />}
+              {tab === 'badges' && <Trophy className="w-5 h-5 inline mr-2" />}
+              {tab === 'share' && <Share2 className="w-5 h-5 inline mr-2" />}
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 pb-8">
+        {activeTab === 'learn' && (
+          <div className="grid md:grid-cols-3 gap-4">
+            {lessons.map((lesson, idx) => (
+              <div
+                key={lesson.id}
+                onClick={() => {
+                  setCurrentLesson(idx);
+                  setActiveTab('code');
+                }}
+                className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all cursor-pointer transform hover:scale-105"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    lesson.difficulty === 'Beginner' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                  }`}>
+                    {lesson.difficulty}
+                  </span>
+                  <Star className="w-6 h-6 text-yellow-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{lesson.title}</h3>
+                <p className="text-gray-600 mb-4">{lesson.description}</p>
+                <div className="bg-purple-50 p-3 rounded-lg">
+                  <p className="text-sm text-purple-700 font-medium">🎯 {lesson.challenge}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'code' && (
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Code Editor */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {lessons[currentLesson].title}
+                </h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setCodeMode('blocks')}
+                    className={`px-4 py-2 rounded-lg font-bold ${
+                      codeMode === 'blocks' ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    🧩 Blocks
+                  </button>
+                  <button
+                    onClick={() => setCodeMode('text')}
+                    className={`px-4 py-2 rounded-lg font-bold ${
+                      codeMode === 'text' ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    💻 Text
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-4">
+                <p className="text-yellow-800 font-medium">🎯 {lessons[currentLesson].challenge}</p>
+              </div>
+
+              {codeMode === 'blocks' ? (
+                <div>
+                  <div className="mb-4">
+                    <p className="text-sm font-bold text-gray-700 mb-2">Available Blocks:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {availableBlocks.map(block => (
+                        <button
+                          key={block.type}
+                          onClick={() => addCodeBlock(block.type)}
+                          className={`${block.color} text-white px-4 py-2 rounded-lg font-bold hover:opacity-80 transition-all`}
+                        >
+                          {block.icon} {block.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-4 min-h-48 border-2 border-dashed border-gray-300">
+                    <p className="text-sm text-gray-600 mb-2">Your Code:</p>
+                    {codeBlocks.length === 0 ? (
+                      <p className="text-gray-400 text-center py-8">Drag blocks here to start coding!</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {codeBlocks.map(block => {
+                          const blockInfo = availableBlocks.find(b => b.type === block.type);
+                          return (
+                            <div key={block.id} className={`${blockInfo.color} p-3 rounded-lg flex items-center gap-2`}>
+                              <span className="text-xl">{blockInfo.icon}</span>
+                              <span className="text-white font-bold">{blockInfo.label}</span>
+                              <input
+                                type="text"
+                                value={block.value}
+                                onChange={(e) => updateBlockValue(block.id, e.target.value)}
+                                placeholder="value..."
+                                className="flex-1 px-2 py-1 rounded bg-white/30 text-white placeholder-white/70"
+                              />
+                              <button
+                                onClick={() => removeBlock(block.id)}
+                                className="text-white hover:text-red-200"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <textarea
+                    value={textCode}
+                    onChange={(e) => setTextCode(e.target.value)}
+                    placeholder='say("Hello, World!")'
+                    className="w-full h-64 p-4 bg-gray-900 text-green-400 font-mono rounded-lg border-2 border-gray-700"
+                  />
+                </div>
+              )}
+
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={runCode}
+                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-lg font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                >
+                  <Play className="w-5 h-5" /> Run Code
+                </button>
+                <button
+                  onClick={resetCode}
+                  className="bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-bold hover:bg-gray-300 transition-all flex items-center gap-2"
+                >
+                  <RotateCcw className="w-5 h-5" /> Reset
+                </button>
+              </div>
+            </div>
+
+            {/* Output */}
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Output Window</h3>
+              <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm h-96 overflow-auto whitespace-pre-wrap">
+                {output || '🤖 Press "Run Code" to see what happens!'}
+              </div>
+
+              {showSuccess && (
+                <div className="mt-4 bg-green-100 border-2 border-green-500 rounded-lg p-4 animate-bounce">
+                  <p className="text-green-800 font-bold text-center text-lg">
+                    🎉 Awesome job! +50 points! 🎉
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'badges' && (
+          <div className="bg-white rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Your Badge Collection</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {allBadges.map(badge => {
+                const earned = badges.includes(badge.id);
+                return (
+                  <div
+                    key={badge.id}
+                    className={`p-6 rounded-xl text-center transition-all ${
+                      earned
+                        ? 'bg-gradient-to-br from-yellow-100 to-orange-100 border-2 border-yellow-400'
+                        : 'bg-gray-100 opacity-50'
+                    }`}
+                  >
+                    <div className="text-5xl mb-3">{badge.icon}</div>
+                    <p className="font-bold text-gray-800">{badge.name}</p>
+                    {earned && <p className="text-xs text-green-600 mt-1">✓ Earned!</p>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'share' && (
+          <div className="bg-white rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Share Your Projects</h2>
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 text-center">
+              <Share2 className="w-16 h-16 text-blue-500 mx-auto mb-4" />
+              <p className="text-gray-700 mb-4">
+                Share your amazing coding projects with friends and family! All shared content is moderated to keep everyone safe.
+              </p>
+              <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-8 rounded-lg font-bold hover:shadow-lg transition-all">
+                Share Your Code
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default CodeQuest;
