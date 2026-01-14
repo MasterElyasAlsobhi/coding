@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeQuest - Learn to Code & Have Fun!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #e9d5ff 50%, #fce7f3 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 2rem;
+        }
+
+        .title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+        }
+
+        .stat-badge.points {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .stat-badge.level {
+            background: #ede9fe;
+            color: #6b21a8;
+        }
+
+        .stat-badge.badges {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+        }
+
+        .nav-tabs {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            color: #4b5563;
+        }
+
+        .nav-tab:hover {
+            background: #f3f4f6;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .difficulty-badge.beginner {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .lesson-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-description {
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-challenge {
+            background: #fef3c7;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            color: #92400e;
+        }
+
+        .code-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1rem;
+        }
+
+        .code-panel {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #a855f7;
+            color: white;
+        }
+
+        .mode-btn:not(.active) {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .challenge-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .blocks-available {
+            margin-bottom: 1rem;
+        }
+
+        .blocks-label {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .blocks-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .block-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: opacity 0.3s;
+        }
+
+        .block-btn:hover {
+            opacity: 0.8;
+        }
+
+        .block-btn.say { background: #c084fc; }
+        .block-btn.color { background: #60a5fa; }
+        .block-btn.repeat { background: #4ade80; }
+        .block-btn.move { background: #fbbf24; }
+        .block-btn.wait { background: #f472b6; }
+
+        .code-workspace {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-height: 12rem;
+        }
+
+        .workspace-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-blocks {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .code-block {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .code-block input {
+            flex: 1;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+        }
+
+        .code-block input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0 0.5rem;
+        }
+
+        .empty-workspace {
+            text-align: center;
+            color: #9ca3af;
+            padding: 2rem 0;
+        }
+
+        .code-editor {
+            width: 100%;
+            height: 16rem;
+            padding: 1rem;
+            background: #1f2937;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            border-radius: 0.5rem;
+            border: 2px solid #374151;
+            resize: vertical;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .run-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .run-btn:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn {
+            background: #e5e7eb;
+            color: #374151;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reset-btn:hover {
+            background: #d1d5db;
+        }
+
+        .output-window {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            height: 24rem;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .success-message {
+            margin-top: 1rem;
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            color: #065f46;
+            font-size: 1.125rem;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .badge-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .badge-card.earned {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border: 2px solid #fbbf24;
+        }
+
+        .badge-card.locked {
+            background: #f3f4f6;
+            opacity: 0.5;
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge-name {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .badge-status {
+            font-size: 0.75rem;
+            color: #059669;
+            margin-top: 0.25rem;
+        }
+
+        .share-panel {
+            background: #dbeafe;
+            border: 2px solid #60a5fa;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .share-icon {
+            font-size: 4rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .share-text {
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-btn:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .code-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-tab {
+                min-width: auto;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">✨</div>
+                <div>
+                    <div class="title">CodeQuest</div>
+                    <div class="subtitle">Learn to Code & Have Fun!</div>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat-badge points">
+                    <span>⭐</span>
+                    <span id="points-display">0 pts</span>
+                </div>
+                <div class="stat-badge level">
+                    <span>🏆</span>
+                    <span id="level-display">Level 1</span>
+                </div>
+                <div class="stat-badge badges">
+                    <span>⚡</span>
+                    <span id="badges-display">0 Badges</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('learn')">📚 Learn</button>
+            <button class="nav-tab" onclick="switchTab('code')">💻 Code</button>
+            <button class="nav-tab" onclick="switchTab('badges')">🏆 Badges</button>
+            <button class="nav-tab" onclick="switchTab('share')">🔗 Share</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Learn Tab -->
+        <div id="learn-tab" class="tab-content">
+            <div class="lessons-grid">
+                <div class="lesson-card" onclick="startLesson(0)">
+                    <div class="lesson-header">
+                        <span class="difficulty-badge beginner">Beginner</span>
+                        <span style="font-size: 1.5rem;">⭐</span>
+                    </div>
+                    <div class="lesson-title">Hello, World!</div>
+                    <div class="lesson-description">Learn to display your first message!</div>
+                    <div class="lesson-challenge">🎯 Make the robot say "Hello, World!"</div>
+                </div>
+
+                <div class="lesson-card" onclick="startLesson(1)">
+                    <div class="lesson-header">
+                        <span class="difficulty-badge beginner">Beginner</span>
+                        <span style="font-size: 1.5rem;">⭐</span>
+                    </div>
+                    <div class="lesson-title">Colors & Fun</div>
+                    <div class="lesson-description">Add colors to your creations!</div>
+                    <div class="lesson-challenge">🎯 Change the background to blue</div>
+                </div>
+
+                <div class="lesson-card" onclick="startLesson(2)">
+                    <div class="lesson-header">
+                        <span class="difficulty-badge intermediate">Intermediate</span>
+                        <span style="font-size: 1.5rem;">⭐</span>
+                    </div>
+                    <div class="lesson-title">Loops!</div>
+                    <div class="lesson-description">Repeat actions multiple times</div>
+                    <div class="lesson-challenge">🎯 Say "Yay!" 3 times</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Tab -->
+        <div id="code-tab" class="tab-content hidden">
+            <div class="code-area">
+                <div class="code-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title" id="current-lesson-title">Hello, World!</h2>
+                        <div class="mode-buttons">
+                            <button class="mode-btn active" onclick="switchMode('blocks')">🧩 Blocks</button>
+                            <button class="mode-btn" onclick="switchMode('text')">💻 Text</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-box" id="current-challenge">
+                        🎯 Make the robot say "Hello, World!"
+                    </div>
+
+                    <div id="blocks-mode">
+                        <div class="blocks-available">
+                            <div class="blocks-label">Available Blocks:</div>
+                            <div class="blocks-container">
+                                <button class="block-btn say" onclick="addBlock('say')">💬 Say</button>
+                                <button class="block-btn color" onclick="addBlock('color')">🎨 Color</button>
+                                <button class="block-btn repeat" onclick="addBlock('repeat')">🔁 Repeat</button>
+                                <button class="block-btn move" onclick="addBlock('move')">➡️ Move</button>
+                                <button class="block-btn wait" onclick="addBlock('wait')">⏱️ Wait</button>
+                            </div>
+                        </div>
+
+                        <div class="code-workspace">
+                            <div class="workspace-label">Your Code:</div>
+                            <div id="code-blocks-container" class="code-blocks">
+                                <div class="empty-workspace">Drag blocks here to start coding!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="text-mode" class="hidden">
+                        <textarea id="text-editor" class="code-editor" placeholder='say("Hello, World!")'></textarea>
+                    </div>
+
+                    <div class="control-buttons">
+                        <button class="run-btn" onclick="runCode()">▶️ Run Code</button>
+                        <button class="reset-btn" onclick="resetCode()">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="code-panel">
+                    <h3 class="panel-title">Output Window</h3>
+                    <div id="output" class="output-window">🤖 Press "Run Code" to see what happens!</div>
+                    <div id="success-message" class="success-message hidden">
+                        🎉 Awesome job! +50 points! 🎉
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badges Tab -->
+        <div id="badges-tab" class="tab-content hidden">
+            <div class="code-panel">
+                <h2 class="panel-title" style="margin-bottom: 1.5rem;">Your Badge Collection</h2>
+                <div class="badges-grid" id="badges-grid"></div>
+            </div>
+        </div>
+
+        <!-- Share Tab -->
+        <div id="share-tab" class="tab-content hidden">
+            <div class="code-panel">
+                <h2 class="panel-title" style="margin-bottom: 1rem;">Share Your Projects</h2>
+                <div class="share-panel">
+                    <div class="share-icon">🔗</div>
+                    <p class="share-text">
+                        Share your amazing coding projects with friends and family! All shared content is moderated to keep everyone safe.
+                    </p>
+                    <button class="share-btn">Share Your Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLesson = 0;
+        let points = 0;
+        let level = 1;
+        let badges = [];
+        let codeMode = 'blocks';
+        let codeBlocks = [];
+
+        const lessons = [
+            {
+                title: 'Hello, World!',
+                challenge: '🎯 Make the robot say "Hello, World!"'
+            },
+            {
+                title: 'Colors & Fun',
+                challenge: '🎯 Change the background to blue'
+            },
+            {
+                title: 'Loops!',
+                challenge: '🎯 Say "Yay!" 3 times'
+            }
+        ];
+
+        const allBadges = [
+            { id: 'first-code', name: 'First Steps', icon: '🎯', earned: false },
+            { id: 'lesson-master', name: 'Lesson Master', icon: '📚', earned: false },
+            { id: 'speed-coder', name: 'Speed Coder', icon: '⚡', earned: false },
+            { id: 'creative', name: 'Creative Genius', icon: '🎨', earned: false }
+        ];
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            event.target.classList.add('active');
+
+            if (tabName === 'badges') {
+                renderBadges();
+            }
+        }
+
+        function startLesson(lessonIndex) {
+            currentLesson = lessonIndex;
+            document.getElementById('current-lesson-title').textContent = lessons[lessonIndex].title;
+            document.getElementById('current-challenge').textContent = lessons[lessonIndex].challenge;
+            resetCode();
+            switchTab('code');
+        }
+
+        function switchMode(mode) {
+            codeMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (mode === 'blocks') {
+                document.getElementById('blocks-mode').classList.remove('hidden');
+                document.getElementById('text-mode').classList.add('hidden');
+            } else {
+                document.getElementById('blocks-mode').classList.add('hidden');
+                document.getElementById('text-mode').classList.remove('hidden');
+            }
+        }
+
+        function addBlock(type) {
+            const blockId = Date.now();
+            const block = { type, value: '', id: blockId };
+            codeBlocks.push(block);
+            renderBlocks();
+        }
+
+        function removeBlock(id) {
+            codeBlocks = codeBlocks.filter(b => b.id !== id);
+            renderBlocks();
+        }
+
+        function updateBlockValue(id, value) {
+            const block = codeBlocks.find(b => b.id === id);
+            if (block) block.value = value;
+        }
+
+        function renderBlocks() {
+            const container = document.getElementById('code-blocks-container');
+            
+            if (codeBlocks.length === 0) {
+                container.innerHTML = '<div class="empty-workspace">Drag blocks here to start coding!</div>';
+                return;
+            }
+
+            const blockIcons = {
+                say: '💬',
+                color: '🎨',
+                repeat: '🔁',
+                move: '➡️',
+                wait: '⏱️'
+            };
+
+            const blockColors = {
+                say: '#c084fc',
+                color: '#60a5fa',
+                repeat: '#4ade80',
+                move: '#fbbf24',
+                wait: '#f472b6'
+            };
+
+            container.innerHTML = codeBlocks.map(block => `
+                <div class="code-block" style="background: ${blockColors[block.type]}">
+                    <span style="font-size: 1.25rem;">${blockIcons[block.type]}</span>
+                    <span style="font-weight: bold;">${block.type.charAt(0).toUpperCase() + block.type.slice(1)}</span>
+                    <input type="text" value="${block.value}" 
+                           onchange="updateBlockValue(${block.id}, this.value)"
+                           placeholder="value...">
+                    <button class="remove-btn" onclick="removeBlock(${block.id})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function runCode() {
+            let result = '';
+            const outputEl = document.getElementById('output');
+
+            if (codeMode === 'blocks') {
+                codeBlocks.forEach((block, idx) => {
+                    if (block.type === 'say') {
+                        result += `🤖: ${block.value || 'Hello!'}\n`;
+                    } else if (block.type === 'color') {
+                        result += `🎨 Background changed to ${block.value || 'blue'}!\n`;
+                    } else if (block.type === 'repeat') {
+                        const times = parseInt(block.value) || 2;
+                        const nextBlock = codeBlocks[idx + 1];
+                        if (nextBlock && nextBlock.type === 'say') {
+                            for (let i = 0; i < times; i++) {
+                                result += `🤖: ${nextBlock.value || 'Hello!'}\n`;
+                            }
+                        }
+                    } else if (block.type === 'move') {
+                        result += `🚀 Moved ${block.value || 'forward'}!\n`;
+                    } else if (block.type === 'wait') {
+                        result += `⏱️ Waiting ${block.value || '1'} second...\n`;
+                    }
+                });
+            } else {
+                const code = document.getElementById('text-editor').value;
+                const lines = code.split('\n');
+                
+                lines.forEach(line => {
+                    if (line.includes('say(')) {
+                        const match = line.match(/say\("(.+?)"\)/);
+                        if (match) result += `🤖: ${match[1]}\n`;
+                    } else if (line.includes('color(')) {
+                        const match = line.match(/color\("(.+?)"\)/);
+                        if (match) result += `🎨 Background changed to ${match[1]}!\n`;
+                    } else if (line.includes('repeat(')) {
+                        const match = line.match(/repeat\((\d+)\)/);
+                        if (match) result += `🔁 Repeating ${match[1]} times...\n`;
+                    }
+                });
+            }
+
+            outputEl.textContent = result || '✨ Your code ran! Try adding some blocks.';
+
+            // Check if solution is correct
+            const isCorrect = checkSolution();
+            if (isCorrect) {
+                showSuccess();
+            }
+        }
+
+        function checkSolution() {
+            if (codeMode === 'blocks') {
+                return codeBlocks.some(b => b.type === 'say' && b.value.toLowerCase().includes('hello'));
+            } else {
+                const code = document.getElementById('text-editor').value.toLowerCase();
+                return code.includes('say(') && code.includes('hello');
+            }
+        }
+
+        function showSuccess() {
+            const successMsg = document.getElementById('success-message');
+            successMsg.classList.remove('hidden');
+            
+            points += 50;
+            updateStats();
+
+            if (!badges.includes('first-code')) {
+                badges.push('first-code');
+            }
+
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 3000);
+        }
+
+        function updateStats() {
+            document.getElementById('points-display').textContent = points + ' pts';
+            document.getElementById('level-display').textContent = 'Level ' + level;
+            document.getElementById('badges-display').textContent = badges.length + ' Badges';
+
+            if (points >= level * 100) {
+                level++;
+                updateStats();
+            }
+        }
+
+        function resetCode() {
+            codeBlocks = [];
+            renderBlocks();
+            document.getElementById('text-editor').value = '';
+            document.getElementById('output').textContent = '🤖 Press "Run Code" to see what happens!';
+            document.getElementById('success-message').classList.add('hidden');
+        }
+
+        function renderBadges() {
+            const grid = document.getElementById('badges-grid');
+            grid.innerHTML = allBadges.map(badge => {
+                const earned = badges.includes(badge.id);
+                return `
+                    <div class="badge-card ${earned ? 'earned' : 'locked'}">
+                        <div class="badge-icon">${badge.icon}</div>
+                        <div class="badge-name">${badge.name}</div>
+                        ${earned ? '<div class="badge-status">✓ Earned!</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize
+        renderBadges();
+    </script>
+</body>
+</html>
