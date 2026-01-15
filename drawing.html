@@ -868,3 +868,176 @@
                         <span class="like-count">${anim.likes} likes</span>
                     </div>
                 `;
+                
+                galleryGrid.appendChild(item);
+            });
+            
+            // Add like button listeners
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const animId = this.dataset.id;
+                    const success = await likeAnimation(animId);
+                    if (success) {
+                        await renderGallery(sortBy);
+                        await renderLeaderboard();
+                    }
+                });
+            });
+        }
+
+        async function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '<div style="text-align: center; padding: 20px;">Loading leaderboard... 🏆</div>';
+            
+            const animations = await loadAllAnimations();
+            
+            if (animations.length === 0) {
+                leaderboardList.innerHTML = '<div class="empty-state"><div style="font-size: 4em;">🏆</div>No animations yet! Create one to start the competition!</div>';
+                return;
+            }
+            
+            // Sort by likes and take top 100
+            animations.sort((a, b) => b.likes - a.likes);
+            const top100 = animations.slice(0, 100);
+            
+            leaderboardList.innerHTML = '';
+            
+            top100.forEach((anim, index) => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item' + (index < 3 ? ' top3' : '');
+                
+                const thumbnail = createAnimationGif(anim.frames);
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+                
+                item.innerHTML = `
+                    <div class="leaderboard-rank">${medal} #${index + 1}</div>
+                    <img src="${thumbnail}" alt="${anim.title}" class="leaderboard-thumbnail">
+                    <div class="leaderboard-info">
+                        <h3 style="color: #667eea; margin-bottom: 5px;">${anim.title}</h3>
+                        <p style="font-size: 1.3em; color: #ff6b6b; font-weight: bold;">❤️ ${anim.likes} likes</p>
+                    </div>
+                `;
+                
+                leaderboardList.appendChild(item);
+            });
+        }
+
+        // Page navigation
+        document.querySelectorAll('.menu-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active menu item
+                document.querySelectorAll('.menu-item').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                
+                // Show corresponding page
+                const page = this.dataset.page;
+                document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+                
+                if (page === 'draw') {
+                    document.getElementById('drawPage').classList.remove('hidden');
+                } else if (page === 'gallery') {
+                    document.getElementById('galleryPage').classList.remove('hidden');
+                    renderGallery('newest');
+                } else if (page === 'leaderboard') {
+                    document.getElementById('leaderboardPage').classList.remove('hidden');
+                    renderLeaderboard();
+                }
+            });
+        });
+
+        // Gallery filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderGallery(this.dataset.filter);
+            });
+        });
+
+        // Submission modal
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            if (frames.every(frame => frame.length === 0)) {
+                alert('Please draw something first! 🎨');
+                return;
+            }
+            document.getElementById('submitModal').classList.add('show');
+            document.getElementById('animationTitle').focus();
+        });
+
+        document.getElementById('cancelSubmit').addEventListener('click', function() {
+            document.getElementById('submitModal').classList.remove('show');
+        });
+
+        document.getElementById('confirmSubmit').addEventListener('click', async function() {
+            const title = document.getElementById('animationTitle').value.trim();
+            
+            if (!title) {
+                alert('Please give your animation a title! 📝');
+                return;
+            }
+            
+            // Basic safety check - prevent common inappropriate words
+            const inappropriateWords = ['bad', 'hate', 'stupid', 'dumb', 'ugly'];
+            const lowerTitle = title.toLowerCase();
+            if (inappropriateWords.some(word => lowerTitle.includes(word))) {
+                alert('Please use kind and friendly words! 😊');
+                return;
+            }
+            
+            this.disabled = true;
+            this.textContent = 'Submitting... ⏳';
+            
+            const success = await saveAnimation(title, frames);
+            
+            if (success) {
+                alert('🎉 Your animation has been submitted! Check it out in the gallery!');
+                document.getElementById('submitModal').classList.remove('show');
+                document.getElementById('animationTitle').value = '';
+                
+                // Clear canvas and reset
+                frames = [[]];
+                currentFrameIndex = 0;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                updateFrameIndicator();
+                undoStack = [];
+                
+                // Switch to gallery to see the new animation
+                document.querySelector('[data-page="gallery"]').click();
+            } else {
+                alert('❌ Oops! Something went wrong. Please try again!');
+            }
+            
+            this.disabled = false;
+            this.textContent = 'Submit 🚀';
+        });
+
+        // Allow Enter key to submit in modal
+        document.getElementById('animationTitle').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('confirmSubmit').click();
+            }
+        });
+
+        // Close modal on background click
+        document.getElementById('submitModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
+        // Initialize frame indicator
+        updateFrameIndicator();
+
+        // Load initial data for other pages (but don't show them yet)
+        setTimeout(() => {
+            renderGallery('newest');
+            renderLeaderboard();
+        }, 100);
+    </script>
+</body>
+</html>
