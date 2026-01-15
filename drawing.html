@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidsDraw - Create & Share Animations!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            height: fit-content;
+        }
+
+        .menu-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Drawing Page */
+        .drawing-area {
+            text-align: center;
+        }
+
+        .canvas-container {
+            display: inline-block;
+            background: white;
+            border: 5px solid #667eea;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        #drawCanvas {
+            display: block;
+            cursor: crosshair;
+            border-radius: 10px;
+        }
+
+        .tools {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .tool-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .tool-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        .color-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .color-btn.active {
+            border-color: #333;
+            transform: scale(1.3);
+        }
+
+        .submit-btn {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            border-radius: 10px;
+            background: white;
+            border: 2px solid #667eea;
+        }
+
+        .like-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px 10px;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .like-btn.liked {
+            animation: heartbeat 0.5s;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .like-count {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Leaderboard */
+        .leaderboard-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        .leaderboard-item.top3 {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+        }
+
+        .leaderboard-rank {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 50px;
+        }
+
+        .leaderboard-item.top3 .leaderboard-rank {
+            color: #ff6b6b;
+        }
+
+        .leaderboard-thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            border: 3px solid #667eea;
+            object-fit: contain;
+            background: white;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .page-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .animation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .frame-indicator {
+            text-align: center;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .instruction-box {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1.1em;
+            margin: 15px 0;
+            font-family: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            #drawCanvas {
+                max-width: 100%;
+            }
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 1.3em;
+        }
+
+        .empty-state img {
+            width: 150px;
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 KidsDraw Animation Studio 🌟</h1>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <button class="menu-item active" data-page="draw" role="tab" aria-selected="true">
+                ✏️ Create Animation
+            </button>
+            <button class="menu-item" data-page="gallery" role="tab" aria-selected="false">
+                🎬 Gallery
+            </button>
+            <button class="menu-item" data-page="leaderboard" role="tab" aria-selected="false">
+                🏆 Top 100 Leaderboard
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Drawing Page -->
+            <div id="drawPage" class="page">
+                <h2 class="page-title">Create Your Animation! 🎨</h2>
+                <div class="instruction-box">
+                    Draw on each frame to create an animation! Click "Next Frame" to add more frames (up to 10). Use different colors and have fun! 🌈
+                </div>
+
+                <div class="drawing-area">
+                    <div class="color-palette" role="toolbar" aria-label="Color selection">
+                        <button class="color-btn active" style="background: #000000;" data-color="#000000" aria-label="Black"></button>
+                        <button class="color-btn" style="background: #ff6b6b;" data-color="#ff6b6b" aria-label="Red"></button>
+                        <button class="color-btn" style="background: #4ecdc4;" data-color="#4ecdc4" aria-label="Cyan"></button>
+                        <button class="color-btn" style="background: #45b7d1;" data-color="#45b7d1" aria-label="Blue"></button>
+                        <button class="color-btn" style="background: #feca57;" data-color="#feca57" aria-label="Yellow"></button>
+                        <button class="color-btn" style="background: #48dbfb;" data-color="#48dbfb" aria-label="Light Blue"></button>
+                        <button class="color-btn" style="background: #ff9ff3;" data-color="#ff9ff3" aria-label="Pink"></button>
+                        <button class="color-btn" style="background: #54a0ff;" data-color="#54a0ff" aria-label="Sky Blue"></button>
+                        <button class="color-btn" style="background: #00d2d3;" data-color="#00d2d3" aria-label="Turquoise"></button>
+                        <button class="color-btn" style="background: #ffffff; border-color: #ccc;" data-color="#ffffff" aria-label="White"></button>
+                    </div>
+
+                    <div class="frame-indicator">Frame <span id="currentFrame">1</span> of <span id="totalFrames">1</span></div>
+
+                    <div class="canvas-container">
+                        <canvas id="drawCanvas" width="600" height="400" aria-label="Drawing canvas"></canvas>
+                    </div>
+
+                    <div class="animation-controls">
+                        <button class="tool-btn" id="prevFrame">⬅️ Previous Frame</button>
+                        <button class="tool-btn" id="playAnimation">▶️ Play Animation</button>
+                        <button class="tool-btn" id="nextFrame">Next Frame ➡️</button>
+                    </div>
+
+                    <div class="tools">
+                        <button class="tool-btn" id="clearBtn">🗑️ Clear Frame</button>
+                        <button class="tool-btn" id="undoBtn">↩️ Undo</button>
+                        <label class="tool-btn" style="cursor: pointer;">
+                            Brush Size: <input type="range" id="brushSize" min="2" max="20" value="5" style="vertical-align: middle;" aria-label="Brush size">
+                            <span id="brushSizeValue">5</span>
+                        </label>
+                    </div>
+
+                    <button class="submit-btn" id="submitBtn">🚀 Submit to Gallery!</button>
+                </div>
+            </div>
+
+            <!-- Gallery Page -->
+            <div id="galleryPage" class="page hidden">
+                <h2 class="page-title">Animation Gallery 🎬</h2>
+                <div class="instruction-box">
+                    Watch amazing animations created by other kids! Click the ❤️ to like your favorites!
+                </div>
+                <div class="search-filter">
+                    <button class="filter-btn active" data-filter="newest">🆕 Newest First</button>
+                    <button class="filter-btn" data-filter="popular">⭐ Most Liked</button>
+                </div>
+                <div id="galleryGrid" class="gallery-grid"></div>
+            </div>
+
+            <!-- Leaderboard Page -->
+            <div id="leaderboardPage" class="page hidden">
+                <h2 class="page-title">🏆 Top 100 Leaderboard 🏆</h2>
+                <div class="instruction-box">
+                    The most liked animations of all time! Can you make it to the top? 🌟
+                </div>
+                <div id="leaderboardList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Modal -->
+    <div id="submitModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+        <div class="modal-content">
+            <h2 id="modalTitle">Give Your Animation a Title! 🎨</h2>
+            <input type="text" id="animationTitle" placeholder="My Awesome Animation" maxlength="50" aria-label="Animation title">
+            <div style="margin-top: 20px;">
+                <button class="tool-btn" id="confirmSubmit">Submit 🚀</button>
+                <button class="tool-btn" id="cancelSubmit" style="background: #e74c3c;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Canvas and drawing setup
+        const canvas = document.getElementById('drawCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let currentColor = '#000000';
+        let brushSize = 5;
+        let frames = [[]];
+        let currentFrameIndex = 0;
+        let isPlaying = false;
+        let animationInterval = null;
+        let undoStack = [];
+
+        // Initialize canvas
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            
+            saveState();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            
+            frames[currentFrameIndex].push({
+                type: 'start',
+                x: x,
+                y: y,
+                color: currentColor,
+                size: brushSize
+            });
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            frames[currentFrameIndex].push({
+                type: 'draw',
+                x: x,
+                y: y
+            });
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function saveState() {
+            undoStack.push(canvas.toDataURL());
+            if (undoStack.length > 10) undoStack.shift();
+        }
+
+        function undo() {
+            if (undoStack.length > 0) {
+                const img = new Image();
+                img.src = undoStack.pop();
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                };
+            }
+        }
+
+        // Event listeners for drawing
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // Color selection
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentColor = this.dataset.color;
+            });
+        });
+
+        // Brush size
+        document.getElementById('brushSize').addEventListener('input', function() {
+            brushSize = this.value;
+            document.getElementById('brushSizeValue').textContent = this.value;
+        });
+
+        // Clear canvas
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            saveState();
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            frames[currentFrameIndex] = [];
+        });
+
+        // Undo
+        document.getElementById('undoBtn').addEventListener('click', undo);
+
+        // Frame management
+        function updateFrameIndicator() {
+            document.getElementById('currentFrame').textContent = currentFrameIndex + 1;
+            document.getElementById('totalFrames').textContent = frames.length;
+        }
+
+        function redrawFrame(frameIndex) {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const frameData = frames[frameIndex];
+            frameData.forEach(point => {
+                if (point.type === 'start') {
+                    ctx.beginPath();
+                    ctx.moveTo(point.x, point.y);
+                    ctx.strokeStyle = point.color;
+                    ctx.lineWidth = point.size;
+                } else if (point.type === 'draw') {
+                    ctx.lineTo(point.x, point.y);
+                    ctx.stroke();
+                }
+            });
+        }
+
+        document.getElementById('nextFrame').addEventListener('click', function() {
+            if (frames.length < 10) {
+                currentFrameIndex++;
+                if (currentFrameIndex >= frames.length) {
+                    frames.push([]);
+                }
+                redrawFrame(currentFrameIndex);
+                updateFrameIndicator();
+                undoStack = [];
+            } else {
+                alert('Maximum 10 frames allowed! 🎬');
+            }
+        });
+
+        document.getElementById('prevFrame').addEventListener('click', function() {
+            if (currentFrameIndex > 0) {
+                currentFrameIndex--;
+                redrawFrame(currentFrameIndex);
+                updateFrameIndicator();
+                undoStack = [];
+            }
+        });
+
+        // Animation playback
+        document.getElementById('playAnimation').addEventListener('click', function() {
+            if (isPlaying) {
+                clearInterval(animationInterval);
+                isPlaying = false;
+                this.textContent = '▶️ Play Animation';
+                redrawFrame(currentFrameIndex);
+            } else {
+                isPlaying = true;
+                this.textContent = '⏸️ Stop';
+                let playIndex = 0;
+                animationInterval = setInterval(() => {
+                    redrawFrame(playIndex);
+                    playIndex = (playIndex + 1) % frames.length;
+                }, 200);
+            }
+        });
+
+        // Storage functions using window.storage
+        async function saveAnimation(title, framesData) {
+            try {
+                const timestamp = Date.now();
+                const id = 'anim_' + timestamp;
+                
+                const animation = {
+                    id: id,
+                    title: title,
+                    frames: framesData,
+                    likes: 0,
+                    timestamp: timestamp,
+                    likedBy: []
+                };
+                
+                await window.storage.set(id, JSON.stringify(animation), true);
+                return true;
+            } catch (error) {
+                console.error('Error saving animation:', error);
+                return false;
+            }
+        }
+
+        async function loadAllAnimations() {
+            try {
+                const result = await window.storage.list('anim_', true);
+                if (!result || !result.keys) return [];
+                
+                const animations = [];
+                for (const key of result.keys) {
+                    try {
+                        const data = await window.storage.get(key, true);
+                        if (data && data.value) {
+                            animations.push(JSON.parse(data.value));
+                        }
+                    } catch (e) {
+                        console.error('Error loading animation:', key, e);
+                    }
+                }
+                return animations;
+            } catch (error) {
+                console.error('Error loading animations:', error);
+                return [];
+            }
+        }
+
+        async function likeAnimation(animId) {
+            try {
+                const data = await window.storage.get(animId, true);
+                if (!data || !data.value) return false;
+                
+                const animation = JSON.parse(data.value);
+                
+                // Simple like system - in production, track by user ID
+                const userId = 'user_' + (localStorage.getItem('userId') || Math.random().toString(36).substr(2, 9));
+                if (!localStorage.getItem('userId')) {
+                    localStorage.setItem('userId', userId);
+                }
+                
+                if (!animation.likedBy) animation.likedBy = [];
+                
+                if (animation.likedBy.includes(userId)) {
+                    // Unlike
+                    animation.likedBy = animation.likedBy.filter(id => id !== userId);
+                    animation.likes = Math.max(0, animation.likes - 1);
+                } else {
+                    // Like
+                    animation.likedBy.push(userId);
+                    animation.likes++;
+                }
+                
+                await window.storage.set(animId, JSON.stringify(animation), true);
+                return true;
+            } catch (error) {
+                console.error('Error liking animation:', error);
+                return false;
+            }
+        }
+
+        // Render functions
+        function createAnimationGif(frames) {
+            // Create a simple data URL from the first frame for thumbnail
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            tempCtx.fillStyle = 'white';
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            
+            frames[0].forEach(point => {
+                if (point.type === 'start') {
+                    tempCtx.beginPath();
+                    tempCtx.moveTo(point.x, point.y);
+                    tempCtx.strokeStyle = point.color;
+                    tempCtx.lineWidth = point.size;
+                } else if (point.type === 'draw') {
+                    tempCtx.lineTo(point.x, point.y);
+                    tempCtx.stroke();
+                }
+            });
+            
+            return tempCanvas.toDataURL();
+        }
+
+        async function renderGallery(sortBy = 'newest') {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '<div style="text-align: center; padding: 20px; grid-column: 1/-1;">Loading animations... 🎨</div>';
+            
+            const animations = await loadAllAnimations();
+            
+            if (animations.length === 0) {
+                galleryGrid.innerHTML = '<div class="empty-state"><div style="font-size: 4em;">🎨</div>No animations yet! Be the first to create one!</div>';
+                return;
+            }
+            
+            // Sort animations
+            if (sortBy === 'popular') {
+                animations.sort((a, b) => b.likes - a.likes);
+            } else {
+                animations.sort((a, b) => b.timestamp - a.timestamp);
+            }
+            
+            galleryGrid.innerHTML = '';
+            
+            const userId = 'user_' + (localStorage.getItem('userId') || Math.random().toString(36).substr(2, 9));
+            
+            animations.forEach((anim, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                
+                const thumbnail = createAnimationGif(anim.frames);
+                const isLiked = anim.likedBy && anim.likedBy.includes(userId);
+                
+                item.innerHTML = `
+                    <img src="${thumbnail}" alt="${anim.title}">
+                    <h3 style="margin: 10px 0; color: #667eea;">${anim.title}</h3>
+                    <div class="like-section">
+                        <button class="like-btn ${isLiked ? 'liked' : ''}" data-id="${anim.id}" aria-label="Like animation">
+                            ${isLiked ? '❤️' : '🤍'}
+                        </button>
+                        <span class="like-count">${anim.likes} likes</span>
+                    </div>
+                `;
