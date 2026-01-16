@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyFlow - Plan Smarter. Study Better.</title>
     <style>
-        /* CSS Reset and Base Styles */
+        /* ========================================
+           CSS RESET & ROOT VARIABLES
+        ======================================== */
         * {
             margin: 0;
             padding: 0;
@@ -13,25 +15,27 @@
         }
 
         :root {
-            --navy: #2C3E50;
-            --teal: #4A9B9B;
-            --light-bg: #F7F9FA;
-            --amber: #E07A3F;
-            --charcoal: #2D2D2D;
+            --navy: #1F2A44;
+            --teal: #2EC4B6;
+            --light-bg: #F5F7FA;
+            --amber: #FFB703;
+            --charcoal: #2B2B2B;
             --white: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
             color: var(--charcoal);
             background-color: var(--light-bg);
         }
 
-        /* Header and Navigation */
+        /* ========================================
+           HEADER & NAVIGATION
+        ======================================== */
         header {
             background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -50,50 +54,104 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--navy);
-            letter-spacing: -0.5px;
+            text-decoration: none;
         }
 
-        .nav-menu {
+        .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        .nav-menu a {
+        .nav-links a {
             text-decoration: none;
             color: var(--charcoal);
             font-weight: 500;
             transition: color 0.3s;
         }
 
-        .nav-menu a:hover {
+        .nav-links a:hover {
             color: var(--teal);
         }
 
-        /* Hero Section */
+        /* ========================================
+           BUTTONS & CTAs
+        ======================================== */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--amber);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #E6A602;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 183, 3, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--navy);
+            color: var(--white);
+        }
+
+        .btn-teal {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-teal:hover {
+            background-color: #28AFA3;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           HERO SECTION (HOME PAGE)
+        ======================================== */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
             color: var(--white);
             padding: 6rem 2rem;
             text-align: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-content {
             max-width: 800px;
-            margin: 0 auto;
         }
 
         .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
             letter-spacing: -1px;
         }
 
         .hero p {
             font-size: 1.3rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             opacity: 0.95;
+            line-height: 1.8;
         }
 
         .cta-buttons {
@@ -103,83 +161,62 @@
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background-color: var(--amber);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background-color: #C96D35;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(224, 122, 63, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--white);
-            color: var(--navy);
-        }
-
-        /* Section Styles */
-        section {
+        /* ========================================
+           CONTENT SECTIONS
+        ======================================== */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 5rem 2rem;
+            padding: 4rem 2rem;
         }
 
-        .section-title {
+        .page-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--navy);
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             font-weight: 700;
         }
 
-        /* Benefits Section */
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ========================================
+           BENEFITS SECTION (HOME PAGE)
+        ======================================== */
+        .benefits {
+            background-color: var(--white);
+            padding: 5rem 2rem;
+        }
+
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .benefit-card {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
+            padding: 2rem;
         }
 
         .benefit-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
         }
 
         .benefit-card h3 {
             color: var(--navy);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
 
@@ -188,84 +225,202 @@
             line-height: 1.7;
         }
 
-        /* Products Section */
-        .products {
-            background-color: var(--white);
-        }
-
-        .products-grid {
+        /* ========================================
+           LEVEL SELECTION CARDS
+        ======================================== */
+        .levels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .product-card {
-            background: var(--light-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-
-        .product-content {
-            padding: 2rem;
-        }
-
-        .product-card h3 {
-            color: var(--navy);
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-card p {
-            color: var(--charcoal);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .product-price {
-            font-size: 1.8rem;
-            color: var(--teal);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        /* How It Works Section */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
             margin-top: 3rem;
         }
 
-        .step {
+        .level-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 12px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--teal);
+            box-shadow: 0 8px 25px rgba(46, 196, 182, 0.2);
+        }
+
+        .level-card h3 {
+            color: var(--navy);
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-card p {
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+
+        /* ========================================
+           SUBJECT SELECTION
+        ======================================== */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .subject-checkbox {
+            display: none;
+        }
+
+        .subject-label {
+            display: block;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            font-weight: 600;
+            color: var(--navy);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .subject-label:hover {
+            border-color: var(--teal);
+            transform: translateY(-3px);
+        }
+
+        .subject-checkbox:checked + .subject-label {
+            background: var(--teal);
+            color: var(--white);
+            border-color: var(--teal);
+        }
+
+        .subjects-actions {
+            margin-top: 3rem;
+            text-align: center;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           PLANNER RECOMMENDATION
+        ======================================== */
+        .planner-box {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 700px;
+            margin: 3rem auto;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .planner-box h2 {
+            color: var(--navy);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subjects-list {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            color: var(--charcoal);
+        }
+
+        .subjects-list strong {
+            color: var(--teal);
+        }
+
+        /* ========================================
+           PURCHASE PAGE
+        ======================================== */
+        .purchase-box {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 3rem auto;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            color: var(--teal);
+            font-weight: 700;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .purchase-box ul {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .purchase-box ul li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .purchase-box ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--teal);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* ========================================
+           LEARNING PAGE
+        ======================================== */
+        .learning-steps {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 800px;
+            margin: 3rem auto;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+
+        .step {
+            margin-bottom: 2.5rem;
+            padding-left: 4rem;
             position: relative;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 50px;
             background: var(--teal);
             color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin: 0 auto 1.5rem;
         }
 
         .step h3 {
             color: var(--navy);
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .step p {
@@ -273,82 +428,23 @@
             line-height: 1.7;
         }
 
-        /* Testimonials Section */
-        .testimonials {
-            background-color: var(--white);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .testimonial {
+        .download-box {
             background: var(--light-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--amber);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            color: var(--charcoal);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .testimonial-author {
-            color: var(--navy);
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .testimonial-role {
-            color: var(--teal);
-            font-size: 0.95rem;
-        }
-
-        /* About Section */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 10px;
             text-align: center;
+            margin-top: 3rem;
         }
 
-        .about-content p {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            color: var(--charcoal);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Final CTA Section */
-        .final-cta {
-            background: linear-gradient(135deg, var(--teal) 0%, var(--navy) 100%);
-            color: var(--white);
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .final-cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .final-cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-        }
-
-        /* Footer */
+        /* ========================================
+           FOOTER
+        ======================================== */
         footer {
             background-color: var(--navy);
             color: var(--white);
             padding: 3rem 2rem;
             text-align: center;
+            margin-top: 5rem;
         }
 
         .footer-links {
@@ -357,6 +453,7 @@
             justify-content: center;
             gap: 2rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .footer-links a {
@@ -369,12 +466,9 @@
             color: var(--amber);
         }
 
-        .copyright {
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        /* Responsive Design */
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -384,13 +478,13 @@
                 font-size: 1.1rem;
             }
 
-            .nav-menu {
-                gap: 1rem;
-                font-size: 0.9rem;
+            .page-title {
+                font-size: 2.2rem;
             }
 
-            .section-title {
-                font-size: 2rem;
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
 
             .cta-buttons {
@@ -400,163 +494,382 @@
             .btn {
                 width: 100%;
             }
+
+            .step {
+                padding-left: 3rem;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ========================================
+           UTILITY CLASSES
+        ======================================== */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header / Navigation -->
+
+    <!-- ========================================
+         NAVIGATION (SHOWN ON ALL PAGES)
+    ======================================== -->
     <header>
         <nav>
-            <div class="logo">StudyFlow</div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#planners">Planners</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <a href="#" class="logo" onclick="showPage('home')">StudyFlow</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('levels')">Get Started</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Plan Smarter. Study Better.</h1>
-            <p>Simple, effective study planners designed for real students.</p>
-            <div class="cta-buttons">
-                <a href="#planners" class="btn btn-primary">Get Your Planner</a>
-                <a href="#how-it-works" class="btn btn-secondary">View Samples</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section id="benefits">
-        <h2 class="section-title">Why StudyFlow Works</h2>
-        <div class="benefits-grid">
-            <div class="benefit-card">
-                <div class="benefit-icon">⏰</div>
-                <h3>Better Time Management</h3>
-                <p>Organize your schedule efficiently and never miss a deadline. Our planners help you visualize your study time and prioritize what matters most.</p>
-            </div>
-            <div class="benefit-card">
-                <div class="benefit-icon">🧘</div>
-                <h3>Reduced Stress</h3>
-                <p>Feel calm and in control with clear daily plans. Reduce anxiety by breaking big goals into manageable daily tasks.</p>
-            </div>
-            <div class="benefit-card">
-                <div class="benefit-icon">🎯</div>
-                <h3>Improved Focus</h3>
-                <p>Stay on track with structured study sessions. Eliminate distractions and build consistent study habits that lead to success.</p>
-            </div>
-            <div class="benefit-card">
-                <div class="benefit-icon">📚</div>
-                <h3>Exam Readiness</h3>
-                <p>Prepare confidently with countdown trackers and review schedules. Track your progress and enter exams feeling prepared.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products" id="planners">
-        <h2 class="section-title">Our Study Planners</h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <div class="product-content">
-                    <h3>Weekly Study Planner</h3>
-                    <p>Perfect for day-to-day organization. Plan your week with hourly slots, task lists, and goal tracking to stay consistent.</p>
-                    <div class="product-price">$9.99</div>
-                    <a href="#" class="btn btn-primary">Download Now</a>
+    <!-- ========================================
+         PAGE 1: HOME PAGE
+    ======================================== -->
+    <div id="home-page" class="page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Plan Smarter. Study Better.</h1>
+                <p>Simple, effective study planners designed for real students. Organize your schedule, track your subjects, and boost your productivity.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="showPage('levels')">Get Your Planner</button>
+                    <button class="btn btn-secondary" onclick="scrollToBenefits()">View Samples</button>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-content">
-                    <h3>Exam Countdown Planner</h3>
-                    <p>Designed for exam preparation. Count down to test day with daily study goals, revision checklists, and progress tracking.</p>
-                    <div class="product-price">$12.99</div>
-                    <a href="#" class="btn btn-primary">Download Now</a>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits" id="benefits">
+            <div class="container">
+                <h2 class="page-title">Why StudyFlow Works</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📅</div>
+                        <h3>Organize Your Schedule</h3>
+                        <p>Plan your study sessions with clarity and structure. Never miss a deadline or forget important tasks.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📚</div>
+                        <h3>Track All Subjects</h3>
+                        <p>Keep all your subjects in one place. Monitor progress and allocate time effectively across all your courses.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🚀</div>
+                        <h3>Boost Productivity</h3>
+                        <p>Stay focused and accomplish more. Build consistent study habits that lead to academic success.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎯</div>
+                        <h3>Achieve Your Goals</h3>
+                        <p>Set clear objectives and track your progress. Turn your academic ambitions into reality.</p>
+                    </div>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-content">
-                    <h3>All-in-One Study Bundle</h3>
-                    <p>Complete toolkit for serious students. Get both planners plus bonus resources including focus timers and habit trackers.</p>
-                    <div class="product-price">$19.99</div>
-                    <a href="#" class="btn btn-primary">Download Now</a>
+        </section>
+    </div>
+
+    <!-- ========================================
+         PAGE 2: YEAR LEVEL SELECTION
+    ======================================== -->
+    <div id="levels-page" class="page hidden">
+        <div class="container">
+            <h1 class="page-title">Choose Your Study Level</h1>
+            <p class="page-subtitle">Select the option that best matches your current education level. We'll customize your planner accordingly.</p>
+            
+            <div class="levels-grid">
+                <div class="level-card" onclick="selectLevel('year7-9')">
+                    <h3>Year 7–9</h3>
+                    <p>Lower Secondary School</p>
+                </div>
+                <div class="level-card" onclick="selectLevel('year10-11')">
+                    <h3>Year 10–11</h3>
+                    <p>GCSE Level</p>
+                </div>
+                <div class="level-card" onclick="selectLevel('year12-13')">
+                    <h3>Year 12–13</h3>
+                    <p>A-Level / Sixth Form</p>
+                </div>
+                <div class="level-card" onclick="selectLevel('college')">
+                    <h3>College</h3>
+                    <p>Further Education</p>
+                </div>
+                <div class="level-card" onclick="selectLevel('university')">
+                    <h3>University</h3>
+                    <p>Higher Education</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works">
-        <h2 class="section-title">How It Works</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Download Instantly</h3>
-                <p>Purchase your planner and receive an instant download link. Get started within minutes with PDF files ready to use.</p>
+    <!-- ========================================
+         PAGE 3: SUBJECT SELECTION
+    ======================================== -->
+    <div id="subjects-page" class="page hidden">
+        <div class="container">
+            <h1 class="page-title">Select Your Subjects</h1>
+            <p class="page-subtitle">Choose the subjects you're currently studying. You can select multiple subjects.</p>
+            
+            <div class="subjects-grid" id="subjects-container">
+                <!-- Subjects will be dynamically loaded here by JavaScript -->
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Print or Use Digitally</h3>
-                <p>Print your planner for a hands-on experience, or use it digitally on your tablet or computer. Choose what works best for you.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Study with Confidence</h3>
-                <p>Follow your personalized plan and watch your productivity soar. Stay organized, focused, and achieve your academic goals.</p>
+
+            <div class="subjects-actions">
+                <button class="btn btn-secondary" onclick="showPage('levels')">Back</button>
+                <button class="btn btn-primary" onclick="saveSubjectsAndContinue()">Continue to Planner</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <h2 class="section-title">What Students Say</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial">
-                <p class="testimonial-text">"StudyFlow completely changed how I approach studying. I went from feeling overwhelmed to actually enjoying my study sessions. My grades have never been better!"</p>
-                <div class="testimonial-author">Alex Martinez</div>
-                <div class="testimonial-role">College Sophomore</div>
-            </div>
-            <div class="testimonial">
-                <p class="testimonial-text">"The Exam Countdown Planner saved me during finals week. Being able to see exactly what I needed to review each day took away so much stress. Highly recommend!"</p>
-                <div class="testimonial-author">Jordan Lee</div>
-                <div class="testimonial-role">High School Senior</div>
-            </div>
-            <div class="testimonial">
-                <p class="testimonial-text">"As an online learner, staying organized is crucial. StudyFlow's planners are simple, clean, and actually help me stick to my schedule. Worth every penny."</p>
-                <div class="testimonial-author">Riley Thompson</div>
-                <div class="testimonial-role">Online Certificate Student</div>
+    <!-- ========================================
+         PAGE 4: PLANNER RECOMMENDATION
+    ======================================== -->
+    <div id="planners-page" class="page hidden">
+        <div class="container">
+            <h1 class="page-title">Your Perfect Study Planner</h1>
+            
+            <div class="planner-box">
+                <h2>📚 Personalized Study Planner</h2>
+                <p>Based on your selections, we've created the perfect planner for your needs.</p>
+                
+                <div class="subjects-list" id="selected-subjects-display">
+                    <!-- Selected subjects will be displayed here -->
+                </div>
+
+                <p style="margin: 2rem 0; line-height: 1.8;">This comprehensive planner includes weekly schedules, subject-specific goal tracking, revision checklists, and productivity tools designed specifically for your courses.</p>
+
+                <button class="btn btn-primary" onclick="showPage('purchase')" style="width: 100%;">Buy This Planner</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- About Section -->
-    <section id="about">
-        <h2 class="section-title">About StudyFlow</h2>
-        <div class="about-content">
-            <p>At StudyFlow, we believe every student deserves the tools to succeed. Our mission is simple: help students stay organized, reduce academic stress, and achieve their goals through thoughtfully designed study planners.</p>
-            <p>We understand the challenges of balancing coursework, exams, and life. That's why we create simple, effective tools that make a real difference. No complicated systems, no overwhelming features—just practical planners that work.</p>
-            <p>Whether you're preparing for final exams, managing weekly assignments, or building better study habits, StudyFlow is here to support your academic journey. Simple tools. Real results.</p>
+    <!-- ========================================
+         PAGE 5: PURCHASE PAGE
+    ======================================== -->
+    <div id="purchase-page" class="page hidden">
+        <div class="container">
+            <h1 class="page-title">Secure Checkout</h1>
+            
+            <div class="purchase-box">
+                <h2 style="color: var(--navy); text-align: center; margin-bottom: 1rem;">StudyFlow Digital Planner</h2>
+                
+                <div class="price-tag">$14.99</div>
+
+                <h3 style="color: var(--navy); margin: 2rem 0 1rem;">What's Included:</h3>
+                <ul>
+                    <li>Personalized subject trackers</li>
+                    <li>Weekly and monthly study schedules</li>
+                    <li>Goal setting worksheets</li>
+                    <li>Revision checklists</li>
+                    <li>Focus timer templates</li>
+                    <li>Progress tracking tools</li>
+                    <li>Instant digital download</li>
+                    <li>Lifetime access and updates</li>
+                </ul>
+
+                <p style="text-align: center; margin: 2rem 0; color: var(--charcoal);">
+                    🔒 Secure payment processing<br>
+                    💾 Instant download after purchase<br>
+                    ✉️ Receipt sent to your email
+                </p>
+
+                <button class="btn btn-primary" onclick="completePurchase()" style="width: 100%; margin-top: 1rem;">Complete Purchase</button>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Final CTA Section -->
-    <section class="final-cta" id="contact">
-        <h2>Start Studying Smarter Today</h2>
-        <p>Join thousands of students who have transformed their study habits with StudyFlow.</p>
-        <a href="#planners" class="btn btn-primary">Get Your Planner Now</a>
-    </section>
+    <!-- ========================================
+         PAGE 6: LEARNING / DOWNLOAD PAGE
+    ======================================== -->
+    <div id="learn-page" class="page hidden">
+        <div class="container">
+            <h1 class="page-title">🎉 Welcome to StudyFlow!</h1>
+            <p class="page-subtitle">Thank you for your purchase. Your planner is ready to download!</p>
 
-    <!-- Footer -->
+            <div class="download-box">
+                <h2 style="color: var(--navy); margin-bottom: 1rem;">Download Your Planner</h2>
+                <p style="margin-bottom: 1.5rem;">Click the button below to download your personalized study planner PDF.</p>
+                <button class="btn btn-teal" style="width: 100%;">📥 Download Planner PDF</button>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--charcoal);">A download link has also been sent to your email.</p>
+            </div>
+
+            <div class="learning-steps">
+                <h2 style="color: var(--navy); margin-bottom: 2rem; text-align: center;">How to Use Your StudyFlow Planner</h2>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Set Your Goals</h3>
+                    <p>Start by defining your academic objectives for the term or semester. Write down specific, measurable goals for each subject. This gives you direction and motivation throughout your studies.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Allocate Study Time</h3>
+                    <p>Use the weekly scheduler to assign dedicated time blocks for each subject. Be realistic about your availability and energy levels. Include breaks to maintain focus and prevent burnout.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Track Your Progress</h3>
+                    <p>Regularly update your planner with completed tasks and achievements. Review your progress weekly and adjust your schedule as needed. Celebrate small wins to stay motivated on your academic journey.</p>
+                </div>
+
+                <div style="background: var(--light-bg); padding: 2rem; border-radius: 10px; margin-top: 3rem; text-align: center;">
+                    <h3 style="color: var(--navy); margin-bottom: 1rem;">Need Help?</h3>
+                    <p>Check out our tutorial videos and study tips on our blog, or contact our support team anytime.</p>
+                    <button class="btn btn-secondary" style="margin-top: 1.5rem;">Visit Help Center</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         FOOTER (SHOWN ON ALL PAGES)
+    ======================================== -->
     <footer>
         <ul class="footer-links">
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms of Service</a></li>
             <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Help Center</a></li>
         </ul>
-        <p class="copyright">© 2026 StudyFlow. All rights reserved.</p>
+        <p style="opacity: 0.8;">© 2026 StudyFlow. All rights reserved.</p>
     </footer>
+
+    <!-- ========================================
+         JAVASCRIPT - PAGE NAVIGATION & LOGIC
+    ======================================== -->
+    <script>
+        // Subject data for each level
+        const subjectsByLevel = {
+            'year7-9': ['Maths', 'English', 'Science', 'History', 'Geography', 'Art', 'Music', 'PE'],
+            'year10-11': ['Maths', 'English Language', 'English Literature', 'Biology', 'Chemistry', 'Physics', 'Computer Science', 'History', 'Geography'],
+            'year12-13': ['Maths', 'Further Maths', 'Biology', 'Chemistry', 'Physics', 'Economics', 'Psychology', 'History', 'English Literature'],
+            'college': ['Business Studies', 'Health & Social Care', 'IT', 'Engineering', 'Media Studies', 'Art & Design'],
+            'university': ['Engineering', 'Medicine', 'Law', 'Business', 'Computer Science', 'Psychology', 'Biology', 'Economics']
+        };
+
+        // Level names for display
+        const levelNames = {
+            'year7-9': 'Year 7-9 (Lower Secondary)',
+            'year10-11': 'Year 10-11 (GCSE)',
+            'year12-13': 'Year 12-13 (A-Level)',
+            'college': 'College',
+            'university': 'University'
+        };
+
+        // Show specific page and hide others
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            const targetPage = document.getElementById(pageName + '-page');
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Scroll to benefits section (Home page)
+        function scrollToBenefits() {
+            document.getElementById('benefits').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Handle level selection
+        function selectLevel(level) {
+            // Store selected level
+            localStorage.setItem('selectedLevel', level);
+            
+            // Load subjects for this level
+            loadSubjects(level);
+            
+            // Show subjects page
+            showPage('subjects');
+        }
+
+        // Load subjects dynamically based on selected level
+        function loadSubjects(level) {
+            const container = document.getElementById('subjects-container');
+            container.innerHTML = '';
+            
+            const subjects = subjectsByLevel[level];
+            
+            subjects.forEach(subject => {
+                const id = 'subject-' + subject.replace(/\s+/g, '-').toLowerCase();
+                
+                const html = `
+                    <div>
+                        <input type="checkbox" id="${id}" class="subject-checkbox" value="${subject}">
+                        <label for="${id}" class="subject-label">${subject}</label>
+                    </div>
+                `;
+                
+                container.innerHTML += html;
+            });
+        }
+
+        // Save selected subjects and continue to planner page
+        function saveSubjectsAndContinue() {
+            const checkboxes = document.querySelectorAll('.subject-checkbox:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('Please select at least one subject to continue.');
+                return;
+            }
+            
+            const selectedSubjects = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Store in localStorage
+            localStorage.setItem('selectedSubjects', JSON.stringify(selectedSubjects));
+            
+            // Display selected subjects on planner page
+            displaySelectedSubjects();
+            
+            // Show planner page
+            showPage('planners');
+        }
+
+        // Display selected subjects on the planner recommendation page
+        function displaySelectedSubjects() {
+            const subjects = JSON.parse(localStorage.getItem('selectedSubjects') || '[]');
+            const level = localStorage.getItem('selectedLevel');
+            
+            const display = document.getElementById('selected-subjects-display');
+            
+            if (subjects.length > 0) {
+                display.innerHTML = `
+                    <strong>Study Level:</strong> ${levelNames[level]}<br><br>
+                    <strong>Your Subjects:</strong><br>
+                    ${subjects.join(', ')}
+                `;
+            }
+        }
+
+        // Complete purchase and go to learning page
+        function completePurchase() {
+            // Simulate purchase completion
+            showPage('learn');
+        }
+
+        // Initialize: Show home page on load
+        window.onload = function() {
+            showPage('home');
+        };
+    </script>
+
 </body>
 </html>
