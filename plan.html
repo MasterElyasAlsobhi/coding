@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Plan Smarter. Study Better.</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #2C3E50;
+            --teal: #4A9B9B;
+            --light-bg: #F7F9FA;
+            --amber: #E07A3F;
+            --charcoal: #2D2D2D;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background-color: var(--light-bg);
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--teal);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+            color: var(--white);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--amber);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #C96D35;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(224, 122, 63, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--navy);
+        }
+
+        /* Section Styles */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .benefit-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-card h3 {
+            color: var(--navy);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card p {
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+
+        /* Products Section */
+        .products {
+            background-color: var(--white);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: var(--light-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .product-content {
+            padding: 2rem;
+        }
+
+        .product-card h3 {
+            color: var(--navy);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card p {
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            color: var(--teal);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* How It Works Section */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--teal);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            color: var(--navy);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial {
+            background: var(--light-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--amber);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-author {
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-role {
+            color: var(--teal);
+            font-size: 0.95rem;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--navy) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--amber);
+        }
+
+        .copyright {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header>
+        <nav>
+            <div class="logo">StudyFlow</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#planners">Planners</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Plan Smarter. Study Better.</h1>
+            <p>Simple, effective study planners designed for real students.</p>
+            <div class="cta-buttons">
+                <a href="#planners" class="btn btn-primary">Get Your Planner</a>
+                <a href="#how-it-works" class="btn btn-secondary">View Samples</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+        <h2 class="section-title">Why StudyFlow Works</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">⏰</div>
+                <h3>Better Time Management</h3>
+                <p>Organize your schedule efficiently and never miss a deadline. Our planners help you visualize your study time and prioritize what matters most.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🧘</div>
+                <h3>Reduced Stress</h3>
+                <p>Feel calm and in control with clear daily plans. Reduce anxiety by breaking big goals into manageable daily tasks.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🎯</div>
+                <h3>Improved Focus</h3>
+                <p>Stay on track with structured study sessions. Eliminate distractions and build consistent study habits that lead to success.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📚</div>
+                <h3>Exam Readiness</h3>
+                <p>Prepare confidently with countdown trackers and review schedules. Track your progress and enter exams feeling prepared.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="planners">
+        <h2 class="section-title">Our Study Planners</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-content">
+                    <h3>Weekly Study Planner</h3>
+                    <p>Perfect for day-to-day organization. Plan your week with hourly slots, task lists, and goal tracking to stay consistent.</p>
+                    <div class="product-price">$9.99</div>
+                    <a href="#" class="btn btn-primary">Download Now</a>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-content">
+                    <h3>Exam Countdown Planner</h3>
+                    <p>Designed for exam preparation. Count down to test day with daily study goals, revision checklists, and progress tracking.</p>
+                    <div class="product-price">$12.99</div>
+                    <a href="#" class="btn btn-primary">Download Now</a>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-content">
+                    <h3>All-in-One Study Bundle</h3>
+                    <p>Complete toolkit for serious students. Get both planners plus bonus resources including focus timers and habit trackers.</p>
+                    <div class="product-price">$19.99</div>
+                    <a href="#" class="btn btn-primary">Download Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Download Instantly</h3>
+                <p>Purchase your planner and receive an instant download link. Get started within minutes with PDF files ready to use.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Print or Use Digitally</h3>
+                <p>Print your planner for a hands-on experience, or use it digitally on your tablet or computer. Choose what works best for you.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Study with Confidence</h3>
+                <p>Follow your personalized plan and watch your productivity soar. Stay organized, focused, and achieve your academic goals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2 class="section-title">What Students Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <p class="testimonial-text">"StudyFlow completely changed how I approach studying. I went from feeling overwhelmed to actually enjoying my study sessions. My grades have never been better!"</p>
+                <div class="testimonial-author">Alex Martinez</div>
+                <div class="testimonial-role">College Sophomore</div>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"The Exam Countdown Planner saved me during finals week. Being able to see exactly what I needed to review each day took away so much stress. Highly recommend!"</p>
+                <div class="testimonial-author">Jordan Lee</div>
+                <div class="testimonial-role">High School Senior</div>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text">"As an online learner, staying organized is crucial. StudyFlow's planners are simple, clean, and actually help me stick to my schedule. Worth every penny."</p>
+                <div class="testimonial-author">Riley Thompson</div>
+                <div class="testimonial-role">Online Certificate Student</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About StudyFlow</h2>
+        <div class="about-content">
+            <p>At StudyFlow, we believe every student deserves the tools to succeed. Our mission is simple: help students stay organized, reduce academic stress, and achieve their goals through thoughtfully designed study planners.</p>
+            <p>We understand the challenges of balancing coursework, exams, and life. That's why we create simple, effective tools that make a real difference. No complicated systems, no overwhelming features—just practical planners that work.</p>
+            <p>Whether you're preparing for final exams, managing weekly assignments, or building better study habits, StudyFlow is here to support your academic journey. Simple tools. Real results.</p>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta" id="contact">
+        <h2>Start Studying Smarter Today</h2>
+        <p>Join thousands of students who have transformed their study habits with StudyFlow.</p>
+        <a href="#planners" class="btn btn-primary">Get Your Planner Now</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+        <p class="copyright">© 2026 StudyFlow. All rights reserved.</p>
+    </footer>
+</body>
+</html>
