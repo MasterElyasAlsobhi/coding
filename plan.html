@@ -122,6 +122,20 @@
             transform: translateY(-2px);
         }
 
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: var(--white);
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #20BD5A 0%, #0F7A6C 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
         /* ========================================
            HERO SECTION (HOME PAGE)
         ======================================== */
@@ -662,12 +676,12 @@
     ======================================== -->
     <div id="purchase-page" class="page hidden">
         <div class="container">
-            <h1 class="page-title">Secure Checkout</h1>
+            <h1 class="page-title">Get Your Planner</h1>
             
             <div class="purchase-box">
                 <h2 style="color: var(--navy); text-align: center; margin-bottom: 1rem;">StudyFlow Digital Planner</h2>
                 
-                <div class="price-tag">$14.99</div>
+                <div class="price-tag">£12.99</div>
 
                 <h3 style="color: var(--navy); margin: 2rem 0 1rem;">What's Included:</h3>
                 <ul>
@@ -681,13 +695,43 @@
                     <li>Lifetime access and updates</li>
                 </ul>
 
-                <p style="text-align: center; margin: 2rem 0; color: var(--charcoal);">
-                    🔒 Secure payment processing<br>
-                    💾 Instant download after purchase<br>
-                    ✉️ Receipt sent to your email
-                </p>
+                <!-- WhatsApp Purchase Section -->
+                <div style="background: var(--light-bg); padding: 2rem; border-radius: 10px; margin-top: 2.5rem; border: 2px solid var(--teal);">
+                    <h3 style="color: var(--navy); text-align: center; margin-bottom: 1.5rem; font-size: 1.4rem;">📱 Purchase via WhatsApp</h3>
+                    
+                    <p style="color: var(--charcoal); line-height: 1.8; margin-bottom: 1.5rem; text-align: center;">
+                        Contact us on WhatsApp to complete your purchase securely. Our team will guide you through the payment process and send your planner immediately after confirmation.
+                    </p>
 
-                <button class="btn btn-primary" onclick="completePurchase()" style="width: 100%; margin-top: 1rem;">Complete Purchase</button>
+                    <div style="background: var(--white); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--navy); margin-bottom: 1rem; font-size: 1.1rem;">📝 What to Include in Your Message:</h4>
+                        <ol style="color: var(--charcoal); line-height: 2; padding-left: 1.5rem;">
+                            <li>Your <strong>name</strong></li>
+                            <li>Your <strong>year group/level</strong></li>
+                            <li>Your <strong>selected subjects</strong></li>
+                        </ol>
+                    </div>
+
+                    <a href="https://wa.me/44742284059?text=Hi%2C%20I%27d%20like%20to%20purchase%20a%20StudyFlow%20planner.%0A%0AName%3A%20%0AYear%20Group%3A%20%0ASubjects%3A%20" 
+                       class="btn btn-whatsapp" 
+                       target="_blank"
+                       style="width: 100%; display: block; text-decoration: none;">
+                        📲 Contact via WhatsApp
+                    </a>
+
+                    <p style="text-align: center; margin-top: 1.5rem; color: var(--teal); font-weight: 600; font-size: 0.95rem;">
+                        ✅ You will receive your planner immediately after payment confirmation
+                    </p>
+
+                    <p style="text-align: center; margin-top: 1rem; color: var(--charcoal); font-size: 0.9rem;">
+                        🔒 Secure payment • 💬 Instant support • ⚡ Fast delivery
+                    </p>
+                </div>
+
+                <!-- Demo Button (for testing flow without WhatsApp) -->
+                <button class="btn btn-secondary" onclick="completePurchase()" style="width: 100%; margin-top: 2rem; opacity: 0.7; font-size: 0.9rem;">
+                    Demo: Skip to Download Page
+                </button>
             </div>
         </div>
     </div>
